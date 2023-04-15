@@ -9,6 +9,7 @@ public class Generator : MonoBehaviour
     public TMPro.TMP_Text AverageText;
     private Scaler scaler;
     
+    
     private void Start()
     {
         scaler = GetComponent<Scaler>();
@@ -61,6 +62,15 @@ public class Generator : MonoBehaviour
                 cubes.RemoveAt(cubes.Count - 1);
             }
         }
+        UpdateAverageDistance();
+    }
+
+    public void RandomSubstitution()
+    {
+        cubes[Random.Range(0, cubes.Count)].transform.position = new Vector3(
+            Random.Range(-scaler.Scale.x/2, scaler.Scale.x/2), 
+            Random.Range(-scaler.Scale.y/2, scaler.Scale.y/2), 
+            Random.Range(-scaler.Scale.z/2, scaler.Scale.z/2));
         UpdateAverageDistance();
     }
 }
