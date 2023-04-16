@@ -16,18 +16,6 @@ public class LineGraph : MonoBehaviour
     {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
     }
-    private GameObject CreateCircle(Vector2 anchoredPosition)
-    {
-        GameObject gameObject = new GameObject("circle", typeof(Image));
-        gameObject.transform.SetParent(graphContainer, false);
-        gameObject.GetComponent<Image>().sprite = circleSprite;
-        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(11, 11);
-        rectTransform.anchorMin = new Vector2(0, 0);
-        rectTransform.anchorMax = new Vector2(0, 0);
-        return gameObject;
-    }
     
     private GameObject CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
     {
@@ -62,19 +50,17 @@ public class LineGraph : MonoBehaviour
         float yMaximum = valueList.Max() * 1.1f;
         float xSize = sizeDelta.x / (valueList.Count + 1);
 
-        GameObject lastCircleGameObject = null;
+        Vector2? lastCirclePosition = null;
         for (int i = 0; i < valueList.Count; i++)
         {
             float xPosition = xSize + i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
-            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition));
-            oldDotsAndLines.Add(circleGameObject);
-
-            if (lastCircleGameObject != null)
+            var position = new Vector2(xPosition, yPosition);
+            if (lastCirclePosition != null)
             {
-                oldDotsAndLines.Add(CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, new Vector2(xPosition, yPosition)));
+                oldDotsAndLines.Add(CreateDotConnection((Vector2)lastCirclePosition, position));
             }
-            lastCircleGameObject = circleGameObject;
+            lastCirclePosition = position;
         }
     }
     

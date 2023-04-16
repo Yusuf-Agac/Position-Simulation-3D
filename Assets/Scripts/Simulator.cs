@@ -11,50 +11,43 @@ public class Simulator : MonoBehaviour
     
     public bool isRunning = false;
     public float maxRandomSubstitution = 10f;
-    public float maxRandomSubstitutionTime = 0.2f;
 
     private void Start()
     {
         generator = GetComponent<Generator>();
     }
-
-    public void StartSimulation()
-    {
-        isRunning = true;
-        generator.RandomSubstitution();
-    }
-
+    
     public void NextFrame()
     {
         parseValue(TField.text, out var T);
         if (T <= 0)
         {
+            SimulationFinished();
             return;
         }
         generator.RandomSubstitution();
         TField.text = (T - 1).ToString();
     }
 
-    public void RunSimulation()
+    public void SimulationFinished()
     {
-        StartCoroutine(RunningCoroutine());
+        isRunning = false;
+        generator.ShowGraph();
     }
 
-    IEnumerator RunningCoroutine()
+    public void RunSimulation()
     {
-        while (true)
+        isRunning = true;
+    }
+
+    public void Update()
+    {
+        if (isRunning)
         {
-            parseValue(TField.text, out var T);
-            if (T <= 0)
-            {
-                yield break;
-            }
-            generator.RandomSubstitution();
-            TField.text = (T - 1).ToString();
-            yield return new WaitForSeconds(maxRandomSubstitutionTime);
+            NextFrame();
         }
     }
-    
+
     private void parseValue(string s, out float f, float defaultValue = 10f)
     {
         if (!float.TryParse(s, out f))

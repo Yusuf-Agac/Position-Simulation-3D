@@ -84,14 +84,27 @@ public class Generator : MonoBehaviour
         cube.position = position;
         UpdateAverageDistance();
         averageDistances.Add(averageDistance);
+    }
+
+    public void ShowGraph()
+    {
         lineGraph.ShowGraph(averageDistances);
     }
     
     private Vector3 ClampVector3(Vector3 v, Vector3 min, Vector3 max)
     {
         return new Vector3(
-            Mathf.Clamp(v.x, min.x, max.x),
-            Mathf.Clamp(v.y, min.y, max.y),
-            Mathf.Clamp(v.z, min.z, max.z));
+            Wrap(v.x, min.x, max.x),
+            Wrap(v.y, min.y, max.y),
+            Wrap(v.z, min.z, max.z));
+    }
+
+    float Wrap(float value, float min, float max)
+    {
+        float range = max - min;
+        if (range <= 0f)
+            return value;
+        float wrappedValue = ((value - min) % range + range) % range + min;
+        return wrappedValue;
     }
 }
