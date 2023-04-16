@@ -20,18 +20,18 @@ public class Simulator : MonoBehaviour
     public void StartSimulation()
     {
         isRunning = true;
+        generator.RandomSubstitution();
     }
 
-    public bool NextFrame()
+    public void NextFrame()
     {
         parseValue(TField.text, out var T);
         if (T <= 0)
         {
-            return false;
+            return;
         }
         generator.RandomSubstitution();
         TField.text = (T - 1).ToString();
-        return true;
     }
 
     public void RunSimulation()
@@ -43,7 +43,13 @@ public class Simulator : MonoBehaviour
     {
         while (true)
         {
-            if(!NextFrame()){break;}
+            parseValue(TField.text, out var T);
+            if (T <= 0)
+            {
+                yield break;
+            }
+            generator.RandomSubstitution();
+            TField.text = (T - 1).ToString();
             yield return new WaitForSeconds(1.0f);
         }
     }

@@ -8,6 +8,9 @@ public class Generator : MonoBehaviour
     public TMPro.TMP_InputField NField;
     public TMPro.TMP_Text AverageText;
     private Scaler scaler;
+    public LineGraph lineGraph;
+
+    private float averageDistance = 0f;
     
     
     private void Start()
@@ -33,7 +36,8 @@ public class Generator : MonoBehaviour
                 sum += Vector3.Distance(cubes[i].transform.position, cubes[j].transform.position);
             }
         }
-        AverageText.text = $"Average Distance: {sum / (cubes.Count * (cubes.Count - 1) / 2):F2}";
+        averageDistance = sum / (cubes.Count * (cubes.Count - 1) / 2);
+        AverageText.text = $"Average Distance: {averageDistance:F2}";
     }
     
     public void ResetCubeAmount()
@@ -72,5 +76,7 @@ public class Generator : MonoBehaviour
             Random.Range(-scaler.Scale.y/2, scaler.Scale.y/2), 
             Random.Range(-scaler.Scale.z/2, scaler.Scale.z/2));
         UpdateAverageDistance();
+        lineGraph.dataPoints.Add(averageDistance);
+        lineGraph.ChangeGraph();
     }
 }
