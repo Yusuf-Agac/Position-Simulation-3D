@@ -9,6 +9,18 @@ public class Generator : MonoBehaviour
     public TMPro.TMP_Text AverageText;
     private Scaler scaler;
     public LineGraph lineGraph;
+    private int distanceCount;
+    private float distanceSum;
+
+    private record AverageDistance
+    {
+        public float Sum { get; set; }
+        public float Count { get; set; }
+        public float Average
+        {
+            get => Sum / Count;
+        }
+    }
 
     private float averageDistance = 0f;
     public float maxRandomSubstitution = 1f;
@@ -38,7 +50,9 @@ public class Generator : MonoBehaviour
                 sum += Vector3.Distance(cubes[i].transform.position, cubes[j].transform.position);
             }
         }
-        averageDistance = sum / (cubes.Count * (cubes.Count - 1) / 2);
+        distanceCount += cubes.Count * (cubes.Count - 1) / 2;
+        distanceSum += sum;
+        averageDistance = distanceSum / distanceCount;
         AverageText.text = $"Average Distance: {averageDistance:F2}";
     }
     
@@ -90,7 +104,12 @@ public class Generator : MonoBehaviour
     {
         lineGraph.ShowGraph(averageDistances);
     }
-    
+
+    public void HideGraph()
+    {
+        lineGraph.HideGraph();
+    }
+
     private Vector3 ClampVector3(Vector3 v, Vector3 min, Vector3 max)
     {
         return new Vector3(

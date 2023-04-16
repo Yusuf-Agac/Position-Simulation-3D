@@ -44,6 +44,7 @@ public class LineGraph : MonoBehaviour
 
     public void ShowGraph(List<float> valueList)
     {
+        transform.gameObject.SetActive(true);
         ClearGraph();
         var sizeDelta = graphContainer.sizeDelta;
         float graphHeight = sizeDelta.y;
@@ -63,6 +64,8 @@ public class LineGraph : MonoBehaviour
             lastCirclePosition = position;
         }
     }
+
+    public void HideGraph() => transform.gameObject.SetActive(false);
     
     public float GetAngleFromVectorFloat(Vector3 dir)
     {

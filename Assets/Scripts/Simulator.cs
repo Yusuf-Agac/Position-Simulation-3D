@@ -38,6 +38,7 @@ public class Simulator : MonoBehaviour
     public void RunSimulation()
     {
         isRunning = true;
+        generator.HideGraph();
     }
 
     public void Update()
