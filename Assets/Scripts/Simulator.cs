@@ -11,6 +11,7 @@ public class Simulator : MonoBehaviour
     
     public bool isRunning = false;
     public float maxRandomSubstitution = 10f;
+    public float maxRandomSubstitutionTime = 0.2f;
 
     private void Start()
     {
@@ -50,7 +51,7 @@ public class Simulator : MonoBehaviour
             }
             generator.RandomSubstitution();
             TField.text = (T - 1).ToString();
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(maxRandomSubstitutionTime);
         }
     }
     

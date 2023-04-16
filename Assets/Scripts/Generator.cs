@@ -11,9 +11,11 @@ public class Generator : MonoBehaviour
     public LineGraph lineGraph;
 
     private float averageDistance = 0f;
-    
-    
-    private void Start()
+    public float maxRandomSubstitution = 1f;
+    private readonly List<float> averageDistances = new List<float>();
+
+
+    private void Awake()
     {
         scaler = GetComponent<Scaler>();
     }
@@ -71,12 +73,25 @@ public class Generator : MonoBehaviour
 
     public void RandomSubstitution()
     {
-        cubes[Random.Range(0, cubes.Count)].transform.position = new Vector3(
-            Random.Range(-scaler.Scale.x/2, scaler.Scale.x/2), 
-            Random.Range(-scaler.Scale.y/2, scaler.Scale.y/2), 
-            Random.Range(-scaler.Scale.z/2, scaler.Scale.z/2));
+        Transform cube = cubes[Random.Range(0, cubes.Count)].transform;
+        var position = cube.position;
+        position = new Vector3(
+            Random.Range(position.x - maxRandomSubstitution, position.x + maxRandomSubstitution), 
+            Random.Range(position.y - maxRandomSubstitution, position.y + maxRandomSubstitution), 
+            Random.Range(position.z - maxRandomSubstitution, position.z + maxRandomSubstitution));
+        
+        position = ClampVector3(position, -scaler.Scale / 2, scaler.Scale / 2);
+        cube.position = position;
         UpdateAverageDistance();
-        lineGraph.dataPoints.Add(averageDistance);
-        lineGraph.ChangeGraph();
+        averageDistances.Add(averageDistance);
+        lineGraph.ShowGraph(averageDistances);
+    }
+    
+    private Vector3 ClampVector3(Vector3 v, Vector3 min, Vector3 max)
+    {
+        return new Vector3(
+            Mathf.Clamp(v.x, min.x, max.x),
+            Mathf.Clamp(v.y, min.y, max.y),
+            Mathf.Clamp(v.z, min.z, max.z));
     }
 }
