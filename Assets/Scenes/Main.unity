@@ -2179,6 +2179,7 @@ MonoBehaviour:
   NField: {fileID: 44536605}
   AverageText: {fileID: 2088457992}
   lineGraph: {fileID: 508089188}
+  maxRandomSubstitution: 1
 --- !u!114 &669294097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4159,7 +4160,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 25
-  m_CharacterLimit: 2
+  m_CharacterLimit: 5
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
