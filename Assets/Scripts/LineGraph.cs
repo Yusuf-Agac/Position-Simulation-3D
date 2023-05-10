@@ -42,8 +42,11 @@ public class LineGraph : MonoBehaviour
         oldDotsAndLines.Clear();
     }
 
-    public void ShowGraph(List<float> valueList)
+    public void ShowGraph(List<float> rawValueList)
     {
+        float yMinimum = rawValueList.Min();
+        var valueList = rawValueList.Select(x => x - yMinimum).ToList();
+
         transform.gameObject.SetActive(true);
         ClearGraph();
         var sizeDelta = graphContainer.sizeDelta;
