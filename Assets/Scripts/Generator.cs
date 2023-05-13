@@ -101,7 +101,7 @@ public class Generator : MonoBehaviour
                     Random.Range(oldPosition.y - maxRandomSubstitution, oldPosition.y + maxRandomSubstitution),
                     Random.Range(oldPosition.z - maxRandomSubstitution, oldPosition.z + maxRandomSubstitution));
 
-        //newPosition = ClampVector3(newPosition, -scaler.Scale / 2, scaler.Scale / 2);
+        newPosition = ClampVector3(newPosition, -scaler.Scale / 2, scaler.Scale / 2);
 
         if (!CollisionToggle.isOn)
             return newPosition;
