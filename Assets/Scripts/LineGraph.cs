@@ -10,6 +10,11 @@ public class LineGraph : MonoBehaviour
     public Sprite circleSprite;
     private RectTransform graphContainer;
     
+    public TMPro.TMP_Text xMinText;
+    public TMPro.TMP_Text xMaxText;
+    public TMPro.TMP_Text yMinText;
+    public TMPro.TMP_Text yMaxText;
+
     private readonly List<GameObject> oldDotsAndLines = new List<GameObject>();
 
     private void Awake()
@@ -66,6 +71,10 @@ public class LineGraph : MonoBehaviour
             }
             lastCirclePosition = position;
         }
+        xMaxText.text = rawValueList.Count.ToString();
+        yMaxText.text = rawValueList.Max().ToString("F2");
+        xMinText.text = "0";
+        yMinText.text = rawValueList.Min().ToString("F2");
     }
 
     public void HideGraph() => transform.gameObject.SetActive(false);
